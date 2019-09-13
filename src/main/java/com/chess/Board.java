@@ -2,46 +2,46 @@ package com.chess;
 
 public class Board {
 
-	private Spot[][] spots;
-	private boolean win; // mark the win or not
+	Spot[][] boxes;
 
 	public Board() {
-		win = false;
-		spots = new Spot[8][8];
+		this.resetBoard();
 	}
 
-	public void initialize(Player p) {
-		// put the pieces with initial status
-		for (int i = 0; i < p.getPieces().size(); i++) {
-			spots[p.getPieces().get(i).getX()][p.getPieces().get(i).getY()].occupySpot(p.getPieces().get(i));
+	public Spot getBox(int x, int y) throws Exception {
+
+		if (x < 0 || x > 7 || y < 0 || y > 7) {
+			throw new Exception("Index out of bound");
 		}
+
+		return boxes[x][y];
 	}
 
-	public boolean executeMove(Player p) {
-        Command cmd = p.getCurrentCmd();
-        Piece piece = cmd.getPiece();
+	public void resetBoard() {
+		// initialize white pieces
+		boxes[0][0] = new Spot(0, 0, new Rook(true, true));
+		boxes[0][1] = new Spot(0, 1, new Knight(true, true));
+		boxes[0][2] = new Spot(0, 2, new Bishop(true, true));
+		// ...
+		boxes[1][0] = new Spot(1, 0, new Pawn(true, true));
+		boxes[1][1] = new Spot(1, 1, new Pawn(true, true));
+		// ...
 
-        // check the move step is valid for piece
-        if(!piece.validMove(this, cmd.curX, cmd.curY, cmd.desX, cmd.desY)) {
-            // if not valid cmd remove the command and return false
-            p.removeCurrentCmd();
-            return false;
-        }
+		// initialize black pieces
+		boxes[7][0] = new Spot(7, 0, new Rook(true, false));
+		boxes[7][1] = new Spot(7, 1, new Knight(true, false));
+		boxes[7][2] = new Spot(7, 2, new Bishop(true, false));
+		// ...
+		boxes[6][0] = new Spot(6, 0, new Pawn(true, false));
+		boxes[6][1] = new Spot(6, 1, new Pawn(true, false));
+		// ...
 
-        // check the two pieces side
-        if(spot[cmd.desX][cmd.desY] != null && spot[cmd.desX][cmd.desY].color == piece.color)
-            return false;
-
-        // check and change the state on spot
-        Piece taken = spot[cmd.desX][cmd.desY].occupySpot(piece);
-        if(taken != null &&taken.getClass().getName().equals("King"))
-            board.win = true;
-        spot[cmd.curX][cmd.curY].releaseSpot;
-        return true;
-    }
-
-	public boolean getWin() {
-		return win;
+		// initialize remaining boxes without any piece
+		for (int i = 2; i < 6; i++) {
+			for (int j = 0; j < 8; j++) {
+				boxes[i][j] = new Spot(i, j, null);
+			}
+		}
 	}
 
 }

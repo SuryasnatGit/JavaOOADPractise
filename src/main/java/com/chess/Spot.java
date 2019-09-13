@@ -1,16 +1,45 @@
 package com.chess;
 
+/**
+ * A spot represents one block of the 8×8 grid and an optional piece
+ * 
+ * @author M_402201
+ *
+ */
 public class Spot {
 
-	int x;
-	int y;
-	Piece piece;
+	private int x;
+	private int y;
+	private Piece piece;
 
-	public Spot(int x, int y) {
-		super();
+	public Spot(int x, int y, Piece piece) {
 		this.x = x;
 		this.y = y;
-		piece = null;
+		this.piece = piece;
+	}
+
+	public int getX() {
+		return x;
+	}
+
+	public void setX(int x) {
+		this.x = x;
+	}
+
+	public int getY() {
+		return y;
+	}
+
+	public void setY(int y) {
+		this.y = y;
+	}
+
+	public Piece getPiece() {
+		return this.piece;
+	}
+
+	public void setPiece(Piece piece) {
+		this.piece = piece;
 	}
 
 	// return original piece
@@ -37,7 +66,5 @@ public class Spot {
 		return releasedPiece;
 	}
 
-	public Piece getPiece() {
-		return this.piece;
-	}
+
 }

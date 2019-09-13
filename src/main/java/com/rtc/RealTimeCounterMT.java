@@ -12,17 +12,21 @@ import java.util.concurrent.atomic.AtomicLongArray;
  * Design threadsafe real time counter
  * https://github.com/mission-peace/interview/blob/master/src/com/interview/multithreaded/RealTimeCounter.java
  * 
- * Develop a software to count number of events in last 5 mins. You have to support two apis 1)
- * addEvent() -> It means increment event by 1 2) getTotalEvents() -> Return total number of events
- * in last 5 mins
- *
- * Program should support millions of events every minute and should also provide multi-threading
- * support
- *
- * This class might not have 100% accuracy as far as events in last 5 mins are concerned. Since we
- * are using circular queue last second information may not be very accurate.
+ * Develop a software to count number of events in last 5 mins. You have to
+ * support two apis
  * 
- * @author surya
+ * 1) addEvent() -> It means increment event by 1
+ * 
+ * 2) getTotalEvents() -> Return total number of events in last 5 mins
+ *
+ * Program should support millions of events every minute and should also
+ * provide multi-threading support
+ *
+ * This class might not have 100% accuracy as far as events in last 5 mins are
+ * concerned. Since we are using circular queue last second information may not
+ * be very accurate.
+ * 
+ * Category : Hard
  *
  */
 public class RealTimeCounterMT {
@@ -37,6 +41,7 @@ public class RealTimeCounterMT {
 		positionUpdater.start();
 	}
 
+	// singleton pattern of creation
 	private static volatile RealTimeCounterMT INSTANCE;
 
 	public static RealTimeCounterMT getInstance() {
@@ -89,7 +94,7 @@ public class RealTimeCounterMT {
 
 	public static void main(String args[]) {
 		ExecutorService executor = Executors.newFixedThreadPool(10);
-		final RealTimeCounterMT realTimeCounter = new RealTimeCounterMT();
+		final RealTimeCounterMT realTimeCounter = RealTimeCounterMT.getInstance();
 		final Random random = new Random();
 		final int TOTAL_EVENTS = 10000;
 		final CountDownLatch countDownLatch = new CountDownLatch(TOTAL_EVENTS);
